@@ -25,7 +25,7 @@ namespace keepr.Repositories
        profile.* 
        FROM keep k 
        JOIN profiles profile ON k.creatorId = profile.id;";
-      return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Owner = profile; return keep; }, splitOn: "id");
+      return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Creator = profile; return keep; }, splitOn: "id");
     }
 
     internal Keep Get(int id)
@@ -37,7 +37,7 @@ namespace keepr.Repositories
        FROM keep k 
        JOIN profiles profile ON k.creatorId = profile.id
        WHERE k.id = @id;";
-      return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Owner = profile; return keep; }, new { id }, splitOn: "id").FirstOrDefault();
+      return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Creator = profile; return keep; }, new { id }, splitOn: "id").FirstOrDefault();
     }
 
     internal int Create(Keep newKeep)
@@ -56,6 +56,9 @@ namespace keepr.Repositories
       string sql = @"
      UPDATE keep
      SET
+     name = @Name,
+     img = @Img,
+     description = @Description,
      views = @Views,
      shares = @Shares,
      keeps = @Keeps
@@ -91,7 +94,7 @@ namespace keepr.Repositories
        FROM keep k 
        JOIN profiles profile ON k.creatorId = profile.id
        WHERE k.creatorId = @id;";
-      return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Owner = profile; return keep; }, new { id }, splitOn: "id");
+      return _db.Query<Keep, Profile, Keep>(sql, (keep, profile) => { keep.Creator = profile; return keep; }, new { id }, splitOn: "id");
 
     }
   }

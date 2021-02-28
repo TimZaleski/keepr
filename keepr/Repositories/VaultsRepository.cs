@@ -25,7 +25,7 @@ namespace keepr.Repositories
        FROM vault v 
        JOIN profiles profile ON v.creatorId = profile.id
        WHERE v.id = @id;";
-      return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => { vault.Owner = profile; return vault; }, new { id }, splitOn: "id").FirstOrDefault();
+      return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => { vault.Creator = profile; return vault; }, new { id }, splitOn: "id").FirstOrDefault();
     }
 
     internal int Create(Vault newVault)
@@ -37,6 +37,18 @@ namespace keepr.Repositories
       (@CreatorId, @Name, @Description, @IsPrivate);
       SELECT LAST_INSERT_ID();";
       return _db.ExecuteScalar<int>(sql, newVault);
+    }
+    internal Vault Edit(Vault editData)
+    {
+      string sql = @"
+     UPDATE vault
+     SET
+     name = @Name,
+     isPrivate = @IsPrivate,
+     description = @Description
+     WHERE id = @Id;";
+      _db.Execute(sql, editData);
+      return editData;
     }
 
     internal void Delete(int id)
@@ -54,7 +66,7 @@ namespace keepr.Repositories
        FROM vault v 
        JOIN profiles profile ON v.creatorId = profile.id
        WHERE v.creatorId = @id;";
-      return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => { vault.Owner = profile; return vault; }, new { id }, splitOn: "id");
+      return _db.Query<Vault, Profile, Vault>(sql, (vault, profile) => { vault.Creator = profile; return vault; }, new { id }, splitOn: "id");
 
     }
   }

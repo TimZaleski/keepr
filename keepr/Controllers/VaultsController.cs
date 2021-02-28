@@ -46,8 +46,25 @@ namespace keepr.Controllers
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
         newVault.CreatorId = userInfo.Id;
         Vault created = _vs.Create(newVault);
-        created.Owner = userInfo;
+        created.Creator = userInfo;
         return Ok(created);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<ActionResult<Vault>> Edit(int id, [FromBody] Vault editData)
+    {
+      try
+      {
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        editData.Id = id;
+        editData.Creator = userInfo;
+        return Ok(_vs.Edit(editData, userInfo.Id));
       }
       catch (Exception e)
       {

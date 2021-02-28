@@ -31,6 +31,19 @@ namespace keepr.Services
       return newVault;
     }
 
+    internal Vault Edit(Vault editData, string userId)
+    {
+      Vault original = Get(editData.Id);
+      if (original.CreatorId != userId)
+      {
+        throw new Exception("Access Denied, You cannot edit something that is not yours");
+      }
+      editData.Name = editData.Name == null ? original.Name : editData.Name;
+      editData.IsPrivate = editData.IsPrivate == null ? original.IsPrivate : editData.IsPrivate;
+      editData.Description = editData.Description == null ? original.Description : editData.Description;
+      return _repo.Edit(editData);
+    }
+
     internal string Delete(int id, string userId)
     {
       Vault original = _repo.Get(id);

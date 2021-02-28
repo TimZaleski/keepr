@@ -39,6 +39,9 @@ namespace keepr.Services
       {
         throw new Exception("Access Denied, You cannot edit something that is not yours");
       }
+      editData.Name = editData.Name == null ? original.Name : editData.Name;
+      editData.Img = editData.Img == null ? original.Img : editData.Img;
+      editData.Description = editData.Description == null ? original.Description : editData.Description;
       editData.Views = editData.Views == null ? original.Views : editData.Views;
       editData.Shares = editData.Shares == null ? original.Shares : editData.Shares;
       editData.Shares = editData.Shares == null ? original.Shares : editData.Shares;

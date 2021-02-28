@@ -32,6 +32,19 @@ namespace keepr.Controllers
       };
     }
 
+    [HttpGet("{id}")]
+    public ActionResult<IEnumerable<Keep>> Get(int id)
+    {
+      try
+      {
+        return Ok(_ks.Get(id));
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      };
+    }
+
     [HttpPost]
     [Authorize]
     public async Task<ActionResult<Keep>> Post([FromBody] Keep newKeep)
@@ -41,7 +54,7 @@ namespace keepr.Controllers
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
         newKeep.CreatorId = userInfo.Id;
         Keep created = _ks.Create(newKeep);
-        created.Owner = userInfo;
+        created.Creator = userInfo;
         return Ok(created);
       }
       catch (Exception e)
@@ -58,7 +71,7 @@ namespace keepr.Controllers
       {
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
         editData.Id = id;
-        editData.Owner = userInfo;
+        editData.Creator = userInfo;
         return Ok(_ks.Edit(editData, userInfo.Id));
       }
       catch (Exception e)

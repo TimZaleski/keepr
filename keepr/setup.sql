@@ -9,12 +9,11 @@ CREATE TABLE profiles
   PRIMARY KEY (id)
 );
 
-
 CREATE TABLE vault
 (
   id INT NOT NULL AUTO_INCREMENT,
   creatorId VARCHAR(255) NOT NULL,
-  name VARCHAR(255) NOT NULL UNIQUE,
+  name VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
   isPrivate bit NOT NULL,
 

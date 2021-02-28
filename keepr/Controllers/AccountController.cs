@@ -11,7 +11,7 @@ using keepr.Services;
 namespace keepr.Controllers
 {
   [ApiController]
-  [Route("[controller]")]
+  [Route("api/[controller]")]
   [Authorize]
   public class AccountController : ControllerBase
   {

@@ -12,7 +12,7 @@ namespace keepr.Models
     public int Views { get; set; }
     public int Shares { get; set; }
     public int Keeps { get; set; }
-    public Profile Owner { get; set; }
+    public Profile Creator { get; set; }
   }
 
   public class VaultKeepViewModel : Keep
