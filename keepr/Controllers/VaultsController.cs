@@ -22,15 +22,16 @@ namespace keepr.Controllers
       _ks = ks;
     }
 
-    [HttpGet]
-
     [HttpGet("{id}")]
-    [Authorize]
     public async Task<ActionResult<IEnumerable<Vault>>> Get(int id)
     {
       try
       {
         Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        if (userInfo == null)
+        {
+          return Ok(_vs.Get(id));
+        }
         return Ok(_vs.Get(id, userInfo.Id));
       }
       catch (Exception e)
@@ -90,7 +91,6 @@ namespace keepr.Controllers
     }
 
     [HttpGet("{id}/keeps")]
-    [Authorize]
     public ActionResult<IEnumerable<Vault>> GetKeepsByVaultId(int id)
     {
       try

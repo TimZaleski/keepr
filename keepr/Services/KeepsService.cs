@@ -63,11 +63,12 @@ namespace keepr.Services
     }
      internal IEnumerable<Keep> GetKeepsByVaultId(int id)
     {
-      Vault exists = _vrepo.Get(id);
-      if (exists == null)
+      Vault data = _vrepo.Get(id);
+      if (data == null)
       {
         throw new Exception("Invalid Id");
       }
+      if (data.IsPrivate == true) { throw new Exception("Access Denied: Cannot access a private Vault that you did not create"); }
       return _repo.GetKeepsByVaultId(id);
     }
 

@@ -14,6 +14,17 @@ namespace keepr.Services
       _repo = repo;
     }
 
+    internal Vault Get(int id)
+    {
+      var data = _repo.Get(id);
+      if (data == null)
+      {
+        throw new Exception("Invalid Id");
+      }
+      if (data.IsPrivate == true) { throw new Exception("Access Denied: Cannot access a private Vault that you did not create"); }
+      return data;
+    }
+
     internal Vault Get(int id, string userId)
     {
       var data = _repo.Get(id);
