@@ -14,6 +14,12 @@ namespace keepr.Repositories
       _db = db;
     }
 
+    internal VaultKeep Get(int id)
+    {
+      string sql = "SELECT * FROM vaultkeep WHERE id = @id;";
+      return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
+    }
+
     public int Create(VaultKeep newVk)
     {
       string sql = @"

@@ -17,6 +17,6 @@ namespace keepr.Models
 
   public class VaultKeepViewModel : Keep
   {
-    public int VaultKeepId { get; set; }
+    public int vaultKeepId { get; set; }
   }
 }

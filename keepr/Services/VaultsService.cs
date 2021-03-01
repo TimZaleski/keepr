@@ -14,13 +14,14 @@ namespace keepr.Services
       _repo = repo;
     }
 
-    internal Vault Get(int id)
+    internal Vault Get(int id, string userId)
     {
       var data = _repo.Get(id);
       if (data == null)
       {
         throw new Exception("Invalid Id");
       }
+      if (data.CreatorId != userId && data.IsPrivate == true) { throw new Exception("Access Denied: Cannot access a private Vault that you did not create"); }
       return data;
     }
 
@@ -33,7 +34,7 @@ namespace keepr.Services
 
     internal Vault Edit(Vault editData, string userId)
     {
-      Vault original = Get(editData.Id);
+      Vault original = Get(editData.Id, userId);
       if (original.CreatorId != userId)
       {
         throw new Exception("Access Denied, You cannot edit something that is not yours");

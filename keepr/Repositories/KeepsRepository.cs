@@ -82,7 +82,8 @@ namespace keepr.Repositories
       JOIN keep k ON k.id = vk.keepId
       WHERE vaultId = @vaultId";
 
-      return _db.Query<VaultKeepViewModel>(sql, new { vaultId });
+      IEnumerable<Keep> ret =  _db.Query<VaultKeepViewModel>(sql, new { vaultId });
+      return ret;
     }
 
     internal IEnumerable<Keep> GetByCreatorId(string id)

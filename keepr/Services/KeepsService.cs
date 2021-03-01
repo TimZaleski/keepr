@@ -9,9 +9,11 @@ namespace keepr.Services
   public class KeepsService
   {
     private readonly KeepsRepository _repo;
-    public KeepsService(KeepsRepository repo)
+    private readonly VaultsRepository _vrepo;
+    public KeepsService(KeepsRepository repo, VaultsRepository vrepo)
     {
       _repo = repo;
+      _vrepo = vrepo;
     }
     public IEnumerable<Keep> GetAll()
     {
@@ -59,10 +61,14 @@ namespace keepr.Services
       _repo.Remove(id);
       return "succesfully deleted";
     }
-
-    internal IEnumerable<Keep> GetKeepsByVaultId(int id)
+     internal IEnumerable<Keep> GetKeepsByVaultId(int id)
     {
-      return _repo.GetKeepsByVaultId(id).ToList();
+      Vault exists = _vrepo.Get(id);
+      if (exists == null)
+      {
+        throw new Exception("Invalid Id");
+      }
+      return _repo.GetKeepsByVaultId(id);
     }
 
     internal IEnumerable<Keep> GetKeepsByAccountId(string id)

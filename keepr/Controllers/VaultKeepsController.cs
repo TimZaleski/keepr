@@ -21,7 +21,8 @@ namespace keepr.Controllers
     }
 
     [HttpPost]
-    public async ActionResult<VaultKeep> Post([FromBody] VaultKeep newVk)
+    [Authorize]
+    public async Task<ActionResult<Vault>> Post([FromBody] VaultKeep newVk)
     {
       try
       {
@@ -36,18 +37,20 @@ namespace keepr.Controllers
       }
     }
 
-
     [HttpDelete("{id}")]
-    public ActionResult<string> Delete(int id)
+    [Authorize]
+    public async Task<ActionResult<string>> Delete(int id)
     {
       try
       {
-        return Ok(_service.Delete(id));
+        Profile userInfo = await HttpContext.GetUserInfoAsync<Profile>();
+        return Ok(_service.Delete(id, userInfo.Id));
       }
       catch (Exception e)
       {
         return BadRequest(e.Message);
       }
     }
+
   }
 }
