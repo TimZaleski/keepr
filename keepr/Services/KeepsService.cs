@@ -31,6 +31,8 @@ namespace keepr.Services
     {
       Keep original = _repo.Get(id);
       if (original == null) { throw new Exception("Invalid Id"); }
+      original.Views = original.Views + 1;
+      _repo.Edit(original);
       return original;
     }
 
@@ -44,9 +46,9 @@ namespace keepr.Services
       editData.Name = editData.Name == null ? original.Name : editData.Name;
       editData.Img = editData.Img == null ? original.Img : editData.Img;
       editData.Description = editData.Description == null ? original.Description : editData.Description;
-      editData.Views = editData.Views == null ? original.Views : editData.Views;
-      editData.Shares = editData.Shares == null ? original.Shares : editData.Shares;
-      editData.Shares = editData.Shares == null ? original.Shares : editData.Shares;
+      editData.Views = original.CreatorId == userId ? original.Views : editData.Views;
+      editData.Shares = original.CreatorId == userId ? original.Shares : editData.Shares;
+      editData.Keeps = original.CreatorId == userId ? original.Keeps : editData.Keeps;
       return _repo.Edit(editData);
     }
 
