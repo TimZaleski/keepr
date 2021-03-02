@@ -1,15 +1,29 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo">
-    <h1 class="my-5 bg-dark text-light p-3 rounded d-flex align-items-center">
-      <span class="mx-2 text-white">Vue 3 Starter</span>
-    </h1>
+  <div
+    id="home"
+    class="masonry-container"
+  >
+      <div class="masonry-item" v-for="keep in keeps" :key="keep.id">
+        <keep-component :keep="keep"></keep-component>
+      </div>
   </div>
 </template>
 
 <script>
+import { computed, onMounted } from 'vue'
+import { keepService } from '../services/KeepService'
+import { AppState } from '../AppState'
+import KeepComponent from '../components/KeepComponent.vue'
 export default {
-  name: 'Home'
+  components: { KeepComponent },
+  name: 'Home',
+  setup() {
+    onMounted(() => {
+      keepService.getAllKeeps()
+    })
+    const keeps = computed(() => AppState.keeps)
+    return { keeps }
+  }
 }
 </script>
 
@@ -21,5 +35,14 @@ export default {
     height: 200px;
     width: 200px;
   }
+}
+
+.masonry-container {
+ column-count: 4;
+ column-gap: 15px;
+}
+.masonry-item {
+ display: inline-block;
+ width: 100%;
 }
 </style>
