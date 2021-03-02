@@ -39,10 +39,11 @@ export default {
 
 .masonry-container {
  column-count: 4;
- column-gap: 15px;
+ column-gap: 1em;
 }
 .masonry-item {
  display: inline-block;
  width: 100%;
+ margin: 1em 0 1em;
 }
 </style>

@@ -1,15 +1,13 @@
 <template lang="">
   <div class="keep"
-       :style="`background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)), url('${keep.img}') no-repeat center center /cover; overflow-y: hidden`"
+       :style="`background: linear-gradient( rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6)), url('${keep.img}') no-repeat center center /cover; overflow-y: hidden`"
   >
+  <img :src="keep.img" class="hdnImg" alt="...">
     <div class="keep-darken"></div>
     <div class="keep-content">
-      <h3 class="keep-name">
+      <h3 class="keep-name keepTxt">
         {{ keep.name }}
       </h3>
-      <p class="keep-description m-0 p-0">
-        {{ keep.description }}
-      </p>
     </div>
   </div>
 </template>
@@ -24,4 +22,17 @@ export default {
 }
 </script>
 <style scoped>
+.keep{
+  border-radius: 5px;
+  max-height: 26em;
+}
+
+.hdnImg{
+  visibility: hidden;
+  max-height: 20em;
+}
+
+.keepTxt{
+  color:rgb(216, 216, 216)
+}
 </style>
