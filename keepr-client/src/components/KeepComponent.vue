@@ -15,8 +15,8 @@
 </template>
 <script>
 import { useRouter } from 'vue-router'
-import { AppState } from '../AppState'
 import { closeModals } from '../utils/Modal'
+import { keepService } from '../services/KeepService'
 export default {
   props: {
     keep: {
@@ -27,9 +27,7 @@ export default {
   setup(props) {
     const router = useRouter()
     const showKeepInfo = () => {
-      AppState.activeKeep = props.keep
-      AppState.showModal = true
-      AppState.showKeep = true
+      keepService.getKeep(props.keep.id)
     }
     const travel = () => {
       router.push('/keep/' + props.keep.id)

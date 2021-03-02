@@ -21,7 +21,7 @@
 #myModal-container {
   /* Variables */
   --container-height: 90%;
-  --container-width: calc(25% + 15em);
+  --container-width: calc(45% + 15em);
   --footer-height: 4em;
   --frame-height: calc(100% - var(--footer-height));
   --padding: 1em;
@@ -74,7 +74,7 @@
 }
 
 .myModal-image {
-  height: 10em;
+  height: auto;
   width: 100%;
   border-radius: 10px;
   margin-bottom: 1em;

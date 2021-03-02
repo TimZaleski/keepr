@@ -7,13 +7,14 @@ const baseURL = '/api/keeps/'
 class KeepService {
   async getAllKeeps() {
     const res = await api.get(baseURL)
-    logger.log(res.data)
     AppState.keeps = res.data
   }
 
   async getKeep(keepId) {
     const res = await api.get(baseURL + keepId)
     AppState.activeKeep = res.data
+    AppState.showModal = true
+    AppState.showKeep = true
   }
 
   async create(data) {
@@ -28,6 +29,8 @@ class KeepService {
 
   async deleteKeep(groupId) {
     await api.delete(baseURL + groupId)
+    AppState.activeKeep = null
+    this.getAllKeeps()
   }
 }
 

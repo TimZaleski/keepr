@@ -7,6 +7,7 @@ class AccountService {
     try {
       const res = await api.get('/api/account')
       AppState.account = res.data
+      console.log(AppState.account)
     } catch (err) {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }
