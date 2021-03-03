@@ -70,7 +70,7 @@ export default {
     onMounted(() => {
       profileService.getProfileById(route.params.id)
       if (route.params.id === AppState.account.id) {
-        accountService.getVaultsByAccountId()
+        accountService.getVaultsByAccountId(route.params.id)
       } else {
         profileService.getVaultsByProfileId(route.params.id)
       }

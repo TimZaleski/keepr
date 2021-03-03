@@ -53,8 +53,10 @@ export default {
     const myVaults = computed(() => AppState.myVaults)
     const act = computed(() => AppState.account)
     const deleteKeep = async() => {
-      keepService.deleteKeep(AppState.activeKeep.id)
-      closeModals()
+      if (confirm('Delete this Keep?')) {
+        keepService.deleteKeep(AppState.activeKeep.id)
+        closeModals()
+      }
     }
     const travel = () => {
       router.push('/profiles/' + AppState.activeKeep.creatorId)
