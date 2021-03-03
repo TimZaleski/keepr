@@ -2,5 +2,7 @@ import { AppState } from '../AppState'
 
 export const closeModals = () => {
   AppState.showModal = false
-  AppState.showGroupInfo = false
+  AppState.showKeep = false
+  AppState.showAddKeep = false
+  AppState.showAddVault = false
 }

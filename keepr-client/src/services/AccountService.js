@@ -7,10 +7,20 @@ class AccountService {
     try {
       const res = await api.get('/api/account')
       AppState.account = res.data
-      console.log(AppState.account)
+      await this.getMyVaultsByAccountId(AppState.account.id)
     } catch (err) {
       logger.error('HAVE YOU STARTED YOUR SERVER YET???', err)
     }
+  }
+
+  async getVaultsByAccountId(accountId) {
+    const res = await api.get('/api/account/' + accountId + '/vaults')
+    AppState.vaults = res.data
+  }
+
+  async getMyVaultsByAccountId() {
+    const res = await api.get('/api/account/vaults')
+    AppState.myVaults = res.data
   }
 }
 

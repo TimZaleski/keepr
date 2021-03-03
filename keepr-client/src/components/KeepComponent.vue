@@ -9,7 +9,7 @@
       <h3 class="keep-name keepTxt">
         {{ keep.name }}
       </h3>
-      <i class="fa fa-user profImg"></i>
+      <i class="fa fa-user profImg" @click.stop="travel"></i>
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
       keepService.getKeep(props.keep.id)
     }
     const travel = () => {
-      router.push('/keep/' + props.keep.id)
+      router.push('/profiles/' + props.keep.creatorId)
       closeModals()
     }
     return {
@@ -45,6 +45,7 @@ export default {
   border-radius: 5px;
   max-width: 100%;
   height: auto;
+  cursor: pointer;
 }
 
 .hdnImg{

@@ -26,9 +26,13 @@
             </div>
           </div>
           <div class="child d-flex spaceOut">
-            <span><button>Add To Vault</button> </span>
-            <span><i class="fa fa-trash" v-if="act.id == keep.creatorId" @click="deleteKeep"></i> </span>
-            <span>{{ keep.creator.name }} </span>
+            <span>Add To Vault <select name="addToVault" id="addToVault" class="ddl" v-model="selected" @change="onChange($event)">
+                <option v-for="vault in myVaults" v-bind:value="vault.id" :key="vault.id">
+                    {{vault.name}}
+                </option></select>
+            </span>
+            <span class = "pointMe"><i class="fa fa-trash" v-if="act.id == keep.creatorId" @click="deleteKeep"></i> </span>
+            <span class="pointMe" @click="travel">{{ keep.creator.name }} </span>
           </div>
         </div>
       </div>
@@ -40,16 +44,27 @@ import { computed } from 'vue'
 import { AppState } from '../AppState'
 import { keepService } from '../services/KeepService'
 import { closeModals } from '../utils/Modal'
-
+import { useRouter } from 'vue-router'
+import { vaultKeepService } from '../services/VaultKeepService'
 export default {
   setup() {
+    const router = useRouter()
     const keep = computed(() => AppState.activeKeep)
+    const myVaults = computed(() => AppState.myVaults)
     const act = computed(() => AppState.account)
     const deleteKeep = async() => {
       keepService.deleteKeep(AppState.activeKeep.id)
       closeModals()
     }
-    return { keep, act, deleteKeep }
+    const travel = () => {
+      router.push('/profiles/' + AppState.activeKeep.creatorId)
+      closeModals()
+    }
+    const onChange = (event) => {
+      vaultKeepService.createVaultKeep(event.target.value, AppState.activeKeep.id)
+      closeModals()
+    }
+    return { keep, myVaults, act, deleteKeep, travel, onChange }
   }
 }
 </script>
@@ -78,5 +93,8 @@ export default {
 }
 .child {
   margin-top: auto;
+}
+.pointMe{
+  cursor: pointer;
 }
 </style>

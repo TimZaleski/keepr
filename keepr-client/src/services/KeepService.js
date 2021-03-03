@@ -1,6 +1,6 @@
 import { AppState } from '../AppState'
-import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
+import { profileService } from '../services/ProfileService'
 
 const baseURL = '/api/keeps/'
 
@@ -17,9 +17,9 @@ class KeepService {
     AppState.showKeep = true
   }
 
-  async create(data) {
-    const res = await api.post(baseURL, data)
-    AppState.activeKeep = res.data
+  async createKeep(data) {
+    await api.post(baseURL, data)
+    profileService.getKeepsByProfileId(AppState.account.id)
   }
 
   async editKeep(data, keepId) {
