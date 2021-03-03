@@ -1,7 +1,7 @@
 <template lang="">
   <div class="vault"
        :style="`overflow-y: hidden`"
-       @click="showVaultInfo"
+       @click="travel"
   >
     <div class="vault-darken"></div>
     <div class="vault-content bottomContainer">
@@ -24,7 +24,7 @@ export default {
   setup(props) {
     const router = useRouter()
     const travel = () => {
-      router.push('/vault/' + props.vault.id)
+      router.push('/vaults/' + props.vault.id)
       closeModals()
     }
     return {
