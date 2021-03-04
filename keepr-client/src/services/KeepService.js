@@ -17,6 +17,11 @@ class KeepService {
     AppState.showKeep = true
   }
 
+  async getKeepsByVaultId(vaultId) {
+    const res = await api.get('/api/vaults/' + vaultId + '/keeps')
+    AppState.keeps = res.data
+  }
+
   async createKeep(data) {
     await api.post(baseURL, data)
     profileService.getKeepsByProfileId(AppState.account.id)
