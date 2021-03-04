@@ -95,5 +95,6 @@ export default {
 }
 .addGreen {
   color: green;
+  cursor: pointer;
 }
 </style>

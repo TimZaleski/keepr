@@ -1,11 +1,12 @@
 import { AppState } from '../AppState'
 import { api } from './AxiosService'
 import { profileService } from '../services/ProfileService'
-
+import { logger } from '../utils/Logger'
 const baseURL = '/api/keeps/'
 
 class KeepService {
   async getAllKeeps() {
+    AppState.keeps = null
     const res = await api.get(baseURL)
     AppState.keeps = res.data
   }
@@ -18,8 +19,12 @@ class KeepService {
   }
 
   async getKeepsByVaultId(vaultId) {
+    AppState.keeps = null
+    logger.log('KEEPS RESET')
     const res = await api.get('/api/vaults/' + vaultId + '/keeps')
+    logger.log('KEEPS RETURNED')
     AppState.keeps = res.data
+    logger.log(res.data)
   }
 
   async createKeep(data) {

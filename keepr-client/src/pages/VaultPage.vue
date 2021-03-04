@@ -4,7 +4,7 @@
       <div class="col-12">
         <div class="row">
           <div class="col">
-            <h1>{{ state.vault.name }}</h1>
+            <h1>{{ state.vault.name }} <span class = "pointMe"><i class="fa fa-trash" v-if="state.account.id == state.vault.creatorId" @click="deleteVault"></i> </span></h1>
           </div>
         </div>
       </div>
@@ -30,21 +30,33 @@ import { useRoute } from 'vue-router'
 import { keepService } from '../services/KeepService'
 import { vaultService } from '../services/VaultService'
 import { AppState } from '../AppState'
+import { closeModals } from '../utils/Modal'
+import { logger } from '../utils/Logger'
 export default {
   name: 'ProfilePage',
   setup() {
-    const route = useRoute()
+    const router = useRoute()
     const state = reactive({
       profile: computed(() => AppState.searchedProfile),
       account: computed(() => AppState.account),
       keeps: computed(() => AppState.keeps),
       vault: computed(() => AppState.activeVault)
     })
+    const deleteVault = async() => {
+      if (confirm('Delete this Vault?')) {
+        await vaultService.deleteVault(AppState.activeVault.id)
+        closeModals()
+        useRoute().push('/profiles/' + AppState.account.id)
+      }
+    }
     onMounted(() => {
-      keepService.getKeepsByVaultId(route.params.id)
-      vaultService.getVault(route.params.id)
+      logger.log('vault page mounted' + router.params.id)
+      keepService.getKeepsByVaultId(router.params.id)
+      logger.log('vault keeps gotten' + router.params.id)
+      vaultService.getVault(router.params.id)
+      logger.log('vault gotten' + router.params.id)
     })
-    return { state }
+    return { state, deleteVault }
   }
 }
 </script>
@@ -63,5 +75,8 @@ export default {
 }
 .addGreen {
   color: green;
+}
+.pointMe{
+  cursor: pointer;
 }
 </style>

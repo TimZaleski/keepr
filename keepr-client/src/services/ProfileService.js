@@ -10,6 +10,7 @@ class ProfileService {
   }
 
   async getKeepsByProfileId(profileId) {
+    AppState.keeps = null
     const res = await api.get(baseURL + profileId + '/keeps')
     AppState.keeps = res.data
   }

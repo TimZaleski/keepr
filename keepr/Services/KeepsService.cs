@@ -63,6 +63,17 @@ namespace keepr.Services
       _repo.Remove(id);
       return "succesfully deleted";
     }
+     internal IEnumerable<Keep> GetKeepsByVaultId(int id, string userId)
+    {
+      Vault data = _vrepo.Get(id);
+      if (data == null)
+      {
+        throw new Exception("Invalid Id");
+      }
+      if (data.IsPrivate == true && (data.CreatorId != userId)) { throw new Exception("Access Denied: Cannot access a private Vault that you did not create"); }
+      return _repo.GetKeepsByVaultId(id);
+    }
+
      internal IEnumerable<Keep> GetKeepsByVaultId(int id)
     {
       Vault data = _vrepo.Get(id);

@@ -9,9 +9,11 @@ namespace keepr.Services
   public class VaultsService
   {
     private readonly VaultsRepository _repo;
-    public VaultsService(VaultsRepository repo)
+    private readonly VaultKeepsRepository _vkrepo;
+    public VaultsService(VaultsRepository repo, VaultKeepsRepository vkrepo)
     {
       _repo = repo;
+      _vkrepo = vkrepo;
     }
 
     internal Vault Get(int id)
@@ -61,6 +63,7 @@ namespace keepr.Services
       Vault original = _repo.Get(id);
       if (original == null) { throw new Exception("Bad ID"); }
       if (original.CreatorId != userId) { throw new Exception("Access Denied: Cannot Edit a Vault that you did not create"); }
+      _vkrepo.RemoveVault(id);
       _repo.Delete(id);
       return "successfully deleted";
     }

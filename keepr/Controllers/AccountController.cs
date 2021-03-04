@@ -38,7 +38,7 @@ namespace keepr.Controllers
       }
     }
 
-    [HttpGet("vaults")]
+    [HttpGet("{id}/vaults")]
     public async Task<ActionResult<IEnumerable<Vault>>> GetVaultsByProfileIdAsync()
     {
       try
